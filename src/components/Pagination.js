@@ -1,30 +1,14 @@
-import React, {Component, PropTypes} from "react";
-import pagiator from "paginator";
-import classNames from "classnames";
+import React, { Component, PropTypes } from "react";
+import paginator from "paginator";
 import Page from "./Page";
 
-const lt = "⟨";
-const Lt = "«";
-const gt = "⟩";
-const Gt = "»";
-
-const prevPageText = lt;
-const firstPageText = Lt;
-
-const nextPageText = gt;
-const lastPageText = Gt;
-
 export default class Pagination extends React.Component {
-    constructor(props) {
-        super();
-    }
-
     static propTypes = {
       totalItemsCount: PropTypes.number.isRequired,
       onChange: PropTypes.func.isRequired,
       activePage: PropTypes.number,
-      pageRangeDisplayed: PropTypes.number,
       itemsCountPerPage: PropTypes.number,
+      pageRangeDisplayed: PropTypes.number,
       prevPageText: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.element
@@ -40,80 +24,94 @@ export default class Pagination extends React.Component {
       firstPageText: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.element
-      ])
+      ]),
+      innerClass: PropTypes.string,
+      activeClass: PropTypes.string,
+      hideDisabled: PropTypes.bool
     }
 
-    onClick(page, e) {
-        e.preventDefault();
-        this.props.onChange(page);
+    static defaultProps = {
+      itemsCountPerPage: 10,
+      pageRangeDisplayed: 5,
+      activePage: 1,
+      prevPageText: "⟨",
+      firstPageText: "«",
+      nextPageText: "⟩",
+      lastPageText: "»",
+      innerClass: "pagination",
     }
 
     buildPages() {
-        let pages = [];
-
-        let {
-            itemsCountPerPage = 10,
-            pageRangeDisplayed = 5,
-            activePage = 1, 
-            prevPageText = lt,
-            nextPageText = gt,
-            firstPageText = Lt,
-            lastPageText = Gt,
-            totalItemsCount
+        const pages = [];
+        const {
+            itemsCountPerPage,
+            pageRangeDisplayed,
+            activePage,
+            prevPageText,
+            nextPageText,
+            firstPageText,
+            lastPageText,
+            totalItemsCount,
+            onChange,
+            activeClass,
+            hideDisabled
         } = this.props;
 
-        let paginationInfo = new pagiator(itemsCountPerPage, pageRangeDisplayed).build(totalItemsCount, activePage);
+        const paginationInfo = new paginator(itemsCountPerPage, pageRangeDisplayed)
+            .build(totalItemsCount, activePage);
 
         if (paginationInfo.first_page !== paginationInfo.last_page) {
             for(let i = paginationInfo.first_page; i <= paginationInfo.last_page; i++) {
                 pages.push(
-                    <Page 
-                        isActive={i === activePage} 
-                        key={i} 
-                        pageNumber={i} 
-                        onClick={this.onClick.bind(this)} 
+                    <Page
+                        isActive={i === activePage}
+                        key={i}
+                        pageNumber={i}
+                        pageText={i + ""}
+                        onClick={onChange}
+                        activeClass={activeClass}
                     />
                 );
             }
         }
 
-        paginationInfo.has_previous_page && pages.unshift(
-            <Page 
-                isActive={false} 
-                key={"prev" + paginationInfo.previous_page} 
-                pageNumber={paginationInfo.previous_page} 
-                onClick={this.onClick.bind(this)}
+        (hideDisabled && !paginationInfo.has_previous_page) || pages.unshift(
+            <Page
+                key={"prev" + paginationInfo.previous_page}
+                pageNumber={paginationInfo.previous_page}
+                onClick={onChange}
                 pageText={prevPageText}
+                isDisabled={!paginationInfo.has_previous_page}
             />
         );
 
-        paginationInfo.first_page > 1 && pages.unshift(
-            <Page 
-                isActive={false}
-                key={1} 
-                pageNumber={1} 
-                onClick={this.onClick.bind(this)}
+        (hideDisabled && !paginationInfo.has_previous_page) || pages.unshift(
+            <Page
+                key={"first"}
+                pageNumber={1}
+                onClick={onChange}
                 pageText={firstPageText}
+                isDisabled={paginationInfo.current_page === paginationInfo.first_page}
             />
         );
 
-        paginationInfo.has_next_page && pages.push(
-            <Page 
-                isActive={false}
-                key={"next" + paginationInfo.next_page} 
-                pageNumber={paginationInfo.next_page} 
-                onClick={this.onClick.bind(this)}
+        (hideDisabled && !paginationInfo.has_next_page) || pages.push(
+            <Page
+                key={"next" + paginationInfo.next_page}
+                pageNumber={paginationInfo.next_page}
+                onClick={onChange}
                 pageText={nextPageText}
+                isDisabled={!paginationInfo.has_next_page}
             />
         );
 
-        paginationInfo.last_page !== paginationInfo.total_pages && pages.push(
-            <Page 
-                isActive={false}
-                key={paginationInfo.total_pages} 
-                pageNumber={paginationInfo.total_pages} 
-                onClick={this.onClick.bind(this)}
+        (hideDisabled && !paginationInfo.has_next_page) || pages.push(
+            <Page
+                key={"last"}
+                pageNumber={paginationInfo.total_pages}
+                onClick={onChange}
                 pageText={lastPageText}
+                isDisabled={paginationInfo.current_page === paginationInfo.total_pages}
             />
         );
 
@@ -121,10 +119,9 @@ export default class Pagination extends React.Component {
     }
 
     render() {
-        let pages = this.buildPages();
-
+        const pages = this.buildPages();
         return (
-            <ul className="pagination">{pages}</ul>
+            <ul className={this.props.innerClass}>{pages}</ul>
         );
     }
 }

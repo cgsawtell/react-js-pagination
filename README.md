@@ -16,38 +16,41 @@ $ npm install react-js-pagination
 
 Very easy to use. Just provide props with total amount of things that you want to display on the page.
 
-```jsx
+```js
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import Pagination from "../components/Pagination";
 require("bootstrap/less/bootstrap.less");
 
 class App extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       activePage: 15
     };
   }
 
   handlePageChange(pageNumber) {
-    this.setState({activePage: pageNumber});
     console.log(`active page is ${pageNumber}`);
+    this.setState({activePage: pageNumber});
   }
 
   render() {
     return (
       <div>
-        <Pagination 
-          activePage={this.state.activePage} 
-          totalItemsCount={450} 
-          onChange={this.handlePageChange.bind(this)}
+        <Pagination
+          activePage={this.state.activePage}
+          itemsCountPerPage={10}
+          totalItemsCount={450}
+          pageRangeDisplayed={5}
+          onChange={::this.handlePageChange}
         />
       </div>
     );
   }
 }
 
-React.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
 
 ```
 
@@ -59,13 +62,15 @@ Check [Live example](http://vayser.github.io/react-js-pagination)
 
 Name | Type | Default | Description
 --- | --- | --- | --- |
-`totalItemCount` | Number | | Total count of items which you are going to display
-`itemsCountPerPage` | Number | `10` | Count of items per  page
-`acivePage` | Number | `1` | Active page
-`pageRangeDisplayed` | Number | `5` | Range of pages in paginator, exclude navigation blocks (prev, next, first, last pages)
+`totalItemsCount` | Number | | Total count of items which you are going to display
 `onChange` | Function | | Page change handler. Receive pageNumber as arg
-`firstPageText` | String / ReactElement | `«` | Text of first page navigation button or whole element
-`lastPageText` | String / ReactElement | `»` | Text of last page navigation button or whole element
-`prevPageText` | String / ReactElement | `⟨` | Text of prev page navigation button or whole element
-`nextPageText` | String / ReactElement | `⟩` | Text of next page navigation button or whole element
-
+`activePage` | Number | `1` | Active page
+`itemsCountPerPage` | Number | `10` | Count of items per  page
+`pageRangeDisplayed` | Number | `5` | Range of pages in paginator, exclude navigation blocks (prev, next, first, last pages)
+`prevPageText` | String / ReactElement | `⟨` | Text of prev page navigation button
+`firstPageText` | String / ReactElement | `«` | Text of first page navigation button
+`lastPageText` | String / ReactElement | `»` | Text of last page navigation button
+`nextPageText` | String / ReactElement | `⟩` | Text of next page navigation button
+`innerClass` | String | `pagination` | Class name of `<ul>` tag
+`activeClass` | String | `active` | Class name of active `<li>` tag
+`hideDisabled` | Boolean | `false` | Hide navigation buttons (prev page, next page) if they are disabled.
