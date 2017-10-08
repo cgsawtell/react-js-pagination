@@ -10,6 +10,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require("prop-types");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require("classnames");
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -55,19 +59,24 @@ var Page = function (_Component) {
                 pageText = _props2.pageText,
                 pageNumber = _props2.pageNumber,
                 activeClass = _props2.activeClass,
+                itemClass = _props2.itemClass,
+                linkClass = _props2.linkClass,
+                activeLinkClass = _props2.activeLinkClass,
                 disabledClass = _props2.disabledClass,
                 isActive = _props2.isActive,
                 isDisabled = _props2.isDisabled;
 
 
-            var css = (0, _classnames2.default)((_cx = {}, _defineProperty(_cx, activeClass, isActive), _defineProperty(_cx, disabledClass, isDisabled), _cx));
+            var css = (0, _classnames2.default)(itemClass, (_cx = {}, _defineProperty(_cx, activeClass, isActive), _defineProperty(_cx, disabledClass, isDisabled), _cx));
+
+            var linkCss = (0, _classnames2.default)(linkClass, _defineProperty({}, activeLinkClass, isActive));
 
             return _react2.default.createElement(
                 "li",
                 { className: css, onClick: this.handleClick.bind(this) },
                 _react2.default.createElement(
                     "a",
-                    { href: "#" },
+                    { className: linkCss, href: "#" },
                     pageText
                 )
             );
@@ -77,33 +86,13 @@ var Page = function (_Component) {
     return Page;
 }(_react.Component);
 
-Page.propTypes = {
-    pageText: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.element]),
-    pageNumber: _react.PropTypes.number.isRequired,
-    onClick: _react.PropTypes.func.isRequired,
-    isActive: _react.PropTypes.bool.isRequired,
-    isDisabled: _react.PropTypes.bool,
-    activeClass: _react.PropTypes.string,
-    disabledClass: _react.PropTypes.string
-};
 Page.defaultProps = {
     activeClass: "active",
     disabledClass: "disabled",
+    itemClass: undefined,
+    linkClass: undefined,
+    activeLinkCLass: undefined,
     isActive: false,
     isDisabled: false
 };
-var _default = Page;
-exports.default = _default;
-;
-
-var _temp = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-
-    __REACT_HOT_LOADER__.register(Page, "Page", "src/components/Page.js");
-
-    __REACT_HOT_LOADER__.register(_default, "default", "src/components/Page.js");
-}();
-
-;
+exports.default = Page;

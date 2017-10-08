@@ -10,6 +10,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require("prop-types");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _paginator = require("paginator");
 
 var _paginator2 = _interopRequireDefault(_paginator);
@@ -17,6 +21,10 @@ var _paginator2 = _interopRequireDefault(_paginator);
 var _Page = require("./Page");
 
 var _Page2 = _interopRequireDefault(_Page);
+
+var _classnames = require("classnames");
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50,54 +58,76 @@ var Pagination = function (_React$Component) {
                 totalItemsCount = _props.totalItemsCount,
                 onChange = _props.onChange,
                 activeClass = _props.activeClass,
-                hideDisabled = _props.hideDisabled;
+                itemClass = _props.itemClass,
+                activeLinkClass = _props.activeLinkClass,
+                disabledClass = _props.disabledClass,
+                hideDisabled = _props.hideDisabled,
+                hideNavigation = _props.hideNavigation,
+                linkClass = _props.linkClass,
+                linkClassFirst = _props.linkClassFirst,
+                linkClassPrev = _props.linkClassPrev,
+                linkClassNext = _props.linkClassNext,
+                linkClassLast = _props.linkClassLast;
 
 
             var paginationInfo = new _paginator2.default(itemsCountPerPage, pageRangeDisplayed).build(totalItemsCount, activePage);
 
-            if (paginationInfo.first_page !== paginationInfo.last_page) {
-                for (var i = paginationInfo.first_page; i <= paginationInfo.last_page; i++) {
-                    pages.push(_react2.default.createElement(_Page2.default, {
-                        isActive: i === activePage,
-                        key: i,
-                        pageNumber: i,
-                        pageText: i + "",
-                        onClick: onChange,
-                        activeClass: activeClass
-                    }));
-                }
+            for (var i = paginationInfo.first_page; i <= paginationInfo.last_page; i++) {
+                pages.push(_react2.default.createElement(_Page2.default, {
+                    isActive: i === activePage,
+                    key: i,
+                    pageNumber: i,
+                    pageText: i + "",
+                    onClick: onChange,
+                    itemClass: itemClass,
+                    linkClass: linkClass,
+                    activeClass: activeClass,
+                    activeLinkClass: activeLinkClass
+                }));
             }
 
-            hideDisabled && !paginationInfo.has_previous_page || pages.unshift(_react2.default.createElement(_Page2.default, {
+            hideDisabled && !paginationInfo.has_previous_page || hideNavigation || pages.unshift(_react2.default.createElement(_Page2.default, {
                 key: "prev" + paginationInfo.previous_page,
                 pageNumber: paginationInfo.previous_page,
                 onClick: onChange,
                 pageText: prevPageText,
-                isDisabled: !paginationInfo.has_previous_page
+                isDisabled: !paginationInfo.has_previous_page,
+                itemClass: itemClass,
+                linkClass: (0, _classnames2.default)(linkClass, linkClassPrev),
+                disabledClass: disabledClass
             }));
 
-            hideDisabled && !paginationInfo.has_previous_page || pages.unshift(_react2.default.createElement(_Page2.default, {
+            hideDisabled && !paginationInfo.has_previous_page || hideNavigation || pages.unshift(_react2.default.createElement(_Page2.default, {
                 key: "first",
                 pageNumber: 1,
                 onClick: onChange,
                 pageText: firstPageText,
-                isDisabled: paginationInfo.current_page === paginationInfo.first_page
+                isDisabled: !paginationInfo.has_previous_page,
+                itemClass: itemClass,
+                linkClass: (0, _classnames2.default)(linkClass, linkClassFirst),
+                disabledClass: disabledClass
             }));
 
-            hideDisabled && !paginationInfo.has_next_page || pages.push(_react2.default.createElement(_Page2.default, {
+            hideDisabled && !paginationInfo.has_next_page || hideNavigation || pages.push(_react2.default.createElement(_Page2.default, {
                 key: "next" + paginationInfo.next_page,
                 pageNumber: paginationInfo.next_page,
                 onClick: onChange,
                 pageText: nextPageText,
-                isDisabled: !paginationInfo.has_next_page
+                isDisabled: !paginationInfo.has_next_page,
+                itemClass: itemClass,
+                linkClass: (0, _classnames2.default)(linkClass, linkClassNext),
+                disabledClass: disabledClass
             }));
 
-            hideDisabled && !paginationInfo.has_next_page || pages.push(_react2.default.createElement(_Page2.default, {
+            hideDisabled && !paginationInfo.has_next_page || hideNavigation || pages.push(_react2.default.createElement(_Page2.default, {
                 key: "last",
                 pageNumber: paginationInfo.total_pages,
                 onClick: onChange,
                 pageText: lastPageText,
-                isDisabled: paginationInfo.current_page === paginationInfo.total_pages
+                isDisabled: paginationInfo.current_page === paginationInfo.total_pages,
+                itemClass: itemClass,
+                linkClass: (0, _classnames2.default)(linkClass, linkClassLast),
+                disabledClass: disabledClass
             }));
 
             return pages;
@@ -117,20 +147,6 @@ var Pagination = function (_React$Component) {
     return Pagination;
 }(_react2.default.Component);
 
-Pagination.propTypes = {
-    totalItemsCount: _react.PropTypes.number.isRequired,
-    onChange: _react.PropTypes.func.isRequired,
-    activePage: _react.PropTypes.number,
-    itemsCountPerPage: _react.PropTypes.number,
-    pageRangeDisplayed: _react.PropTypes.number,
-    prevPageText: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.element]),
-    nextPageText: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.element]),
-    lastPageText: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.element]),
-    firstPageText: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.element]),
-    innerClass: _react.PropTypes.string,
-    activeClass: _react.PropTypes.string,
-    hideDisabled: _react.PropTypes.bool
-};
 Pagination.defaultProps = {
     itemsCountPerPage: 10,
     pageRangeDisplayed: 5,
@@ -139,20 +155,9 @@ Pagination.defaultProps = {
     firstPageText: "«",
     nextPageText: "⟩",
     lastPageText: "»",
-    innerClass: "pagination"
+    innerClass: "pagination",
+    itemClass: undefined,
+    linkClass: undefined,
+    activeLinkClass: undefined
 };
-var _default = Pagination;
-exports.default = _default;
-;
-
-var _temp = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-
-    __REACT_HOT_LOADER__.register(Pagination, "Pagination", "src/components/Pagination.js");
-
-    __REACT_HOT_LOADER__.register(_default, "default", "src/components/Pagination.js");
-}();
-
-;
+exports.default = Pagination;

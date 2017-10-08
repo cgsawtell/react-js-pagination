@@ -26,9 +26,9 @@ export default class App extends Component {
     const defaultSnippet = `render() {
   return (
     <Pagination
-      activePage={this.state.activePage} 
-      itemsCountPerPage={PER_PAGE} 
-      totalItemsCount={TOTAL_COUNT} 
+      activePage={this.state.activePage}
+      itemsCountPerPage={PER_PAGE}
+      totalItemsCount={TOTAL_COUNT}
       onChange={this.handlePageChange}
     />
   );
@@ -38,9 +38,9 @@ export default class App extends Component {
   return (
     <Pagination
       hideDisabled
-      activePage={this.state.activePage} 
-      itemsCountPerPage={PER_PAGE} 
-      totalItemsCount={TOTAL_COUNT} 
+      activePage={this.state.activePage}
+      itemsCountPerPage={PER_PAGE}
+      totalItemsCount={TOTAL_COUNT}
       onChange={this.handlePageChange}
     />
   );
@@ -50,13 +50,27 @@ export default class App extends Component {
   return (
     <Pagination
       pageRangeDisplayed={10}
-      activePage={this.state.activePage} 
-      itemsCountPerPage={PER_PAGE} 
-      totalItemsCount={TOTAL_COUNT} 
+      activePage={this.state.activePage}
+      itemsCountPerPage={PER_PAGE}
+      totalItemsCount={TOTAL_COUNT}
       onChange={this.handlePageChange}
     />
   );
 }`;
+
+	  const hideNavigation = `render() {
+  return (
+    <Pagination
+      hideNavigation
+      pageRangeDisplayed={10}
+      activePage={this.state.activePage}
+      itemsCountPerPage={PER_PAGE}
+      totalItemsCount={TOTAL_COUNT}
+      onChange={this.handlePageChange}
+    />
+  );
+}`;
+
     const overrideText = `render() {
   return (
     <Pagination
@@ -64,9 +78,9 @@ export default class App extends Component {
       nextPageText='next'
       firstPageText='first'
       lastPageText='last'
-      activePage={this.state.activePage} 
-      itemsCountPerPage={PER_PAGE} 
-      totalItemsCount={TOTAL_COUNT} 
+      activePage={this.state.activePage}
+      itemsCountPerPage={PER_PAGE}
+      totalItemsCount={TOTAL_COUNT}
       onChange={this.handlePageChange}
     />
   );
@@ -79,29 +93,29 @@ export default class App extends Component {
       lastPageText={<i className='glyphicon glyphicon-chevron-right'/>}
       prevPageText={<i className='glyphicon glyphicon-menu-left'/>}
       nextPageText={<i className='glyphicon glyphicon-menu-right'/>}
-      activePage={this.state.activePage} 
-      itemsCountPerPage={PER_PAGE} 
-      totalItemsCount={TOTAL_COUNT} 
+      activePage={this.state.activePage}
+      itemsCountPerPage={PER_PAGE}
+      totalItemsCount={TOTAL_COUNT}
       onChange={this.handlePageChange}
     />
   );
 }`;
-    
+
     return (
       <div className='app'>
         <div className="panel panel-default">
           <div className="panel-heading">
             <a href='#default'>
-              <h4 id='default' class="panel-title">Default</h4>
+              <h4 id='default' className="panel-title">Default</h4>
             </a>
           </div>
           <div className="panel-body">
             <SyntaxHighlighter language='javascript' style={sunburst}>{defaultSnippet}</SyntaxHighlighter>
             <div className='text-center'>
-              <Pagination 
-                activePage={this.state.activePage} 
-                itemsCountPerPage={PER_PAGE} 
-                totalItemsCount={TOTAL_COUNT} 
+              <Pagination
+                activePage={this.state.activePage}
+                itemsCountPerPage={PER_PAGE}
+                totalItemsCount={TOTAL_COUNT}
                 onChange={this.handlePageChange}
               />
             </div>
@@ -111,17 +125,17 @@ export default class App extends Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             <a href='#hide-disabled'>
-              <h4 id='hide-disabled' class="panel-title">Hide disabled</h4>
+              <h4 id='hide-disabled' className="panel-title">Hide disabled</h4>
             </a>
           </div>
           <div className="panel-body">
             <SyntaxHighlighter language='javascript' style={sunburst}>{hideDisabled}</SyntaxHighlighter>
             <div className='text-center'>
-              <Pagination 
+              <Pagination
                 hideDisabled
-                activePage={this.state.activePage} 
-                itemsCountPerPage={PER_PAGE} 
-                totalItemsCount={TOTAL_COUNT} 
+                activePage={this.state.activePage}
+                itemsCountPerPage={PER_PAGE}
+                totalItemsCount={TOTAL_COUNT}
                 onChange={this.handlePageChange}
               />
             </div>
@@ -137,11 +151,11 @@ export default class App extends Component {
           <div className="panel-body">
             <SyntaxHighlighter language='javascript' style={sunburst}>{customRange}</SyntaxHighlighter>
             <div className='text-center'>
-              <Pagination 
+              <Pagination
                 pageRangeDisplayed={10}
-                activePage={this.state.activePage} 
-                itemsCountPerPage={PER_PAGE} 
-                totalItemsCount={TOTAL_COUNT} 
+                activePage={this.state.activePage}
+                itemsCountPerPage={PER_PAGE}
+                totalItemsCount={TOTAL_COUNT}
                 onChange={this.handlePageChange}
               />
             </div>
@@ -157,14 +171,14 @@ export default class App extends Component {
           <div className="panel-body">
             <SyntaxHighlighter language='javascript' style={sunburst}>{overrideText}</SyntaxHighlighter>
             <div className='text-center'>
-              <Pagination 
+              <Pagination
                 prevPageText='prev'
                 nextPageText='next'
                 firstPageText='first'
                 lastPageText='last'
-                activePage={this.state.activePage} 
-                itemsCountPerPage={PER_PAGE} 
-                totalItemsCount={TOTAL_COUNT} 
+                activePage={this.state.activePage}
+                itemsCountPerPage={PER_PAGE}
+                totalItemsCount={TOTAL_COUNT}
                 onChange={this.handlePageChange}
               />
             </div>
@@ -180,15 +194,36 @@ export default class App extends Component {
           <div className="panel-body">
             <SyntaxHighlighter language='javascript' style={sunburst}>{overrideElement}</SyntaxHighlighter>
             <div className='text-center'>
-              <Pagination 
+              <Pagination
                 firstPageText={<i className='glyphicon glyphicon-chevron-left'/>}
                 lastPageText={<i className='glyphicon glyphicon-chevron-right'/>}
                 prevPageText={<i className='glyphicon glyphicon-menu-left'/>}
                 nextPageText={<i className='glyphicon glyphicon-menu-right'/>}
-                activePage={this.state.activePage} 
-                itemsCountPerPage={PER_PAGE} 
-                totalItemsCount={TOTAL_COUNT} 
+                activePage={this.state.activePage}
+                itemsCountPerPage={PER_PAGE}
+                totalItemsCount={TOTAL_COUNT}
                 onChange={this.handlePageChange}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="panel panel-default">
+          <div className="panel-heading">
+            <a href='#nav-arrows'>
+              <h4 id='nav-arrows'>Hide navigation arrows</h4>
+            </a>
+          </div>
+          <div className="panel-body">
+            <SyntaxHighlighter language='javascript' style={sunburst}>{hideNavigation}</SyntaxHighlighter>
+            <div className='text-center'>
+              <Pagination
+                  hideNavigation
+                  pageRangeDisplayed={10}
+                  activePage={this.state.activePage}
+                  itemsCountPerPage={PER_PAGE}
+                  totalItemsCount={TOTAL_COUNT}
+                  onChange={this.handlePageChange}
               />
             </div>
           </div>
