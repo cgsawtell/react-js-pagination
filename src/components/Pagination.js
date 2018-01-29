@@ -39,6 +39,7 @@ export default class Pagination extends React.Component {
       linkClassPrev: PropTypes.string,
       linkClassNext: PropTypes.string,
       linkClassLast: PropTypes.string,
+      hrefTransformation: PropTypes.func
     }
 
     static defaultProps = {
@@ -50,6 +51,7 @@ export default class Pagination extends React.Component {
       nextPageText: "⟩",
       lastPageText: "»",
       innerClass: "pagination",
+      hrefTransformation: undefined,
       itemClass: undefined,
       linkClass: undefined,
       activeLinkClass: undefined
@@ -73,6 +75,7 @@ export default class Pagination extends React.Component {
             disabledClass,
             hideDisabled,
             hideNavigation,
+            hrefTransformation,
             linkClass,
             linkClassFirst,
             linkClassPrev,
@@ -95,6 +98,7 @@ export default class Pagination extends React.Component {
                     linkClass={linkClass}
                     activeClass={activeClass}
                     activeLinkClass={activeLinkClass}
+                    hrefTransformation={hrefTransformation}
                 />
             );
         }
@@ -109,6 +113,7 @@ export default class Pagination extends React.Component {
                 itemClass={itemClass}
                 linkClass={cx(linkClass, linkClassPrev)}
                 disabledClass={disabledClass}
+                hrefTransformation={hrefTransformation}                
             />
         );
 
@@ -122,6 +127,7 @@ export default class Pagination extends React.Component {
                 itemClass={itemClass}
                 linkClass={cx(linkClass, linkClassFirst)}
                 disabledClass={disabledClass}
+                hrefTransformation={hrefTransformation}                
             />
         );
 
@@ -135,6 +141,7 @@ export default class Pagination extends React.Component {
                 itemClass={itemClass}
                 linkClass={cx(linkClass, linkClassNext)}
                 disabledClass={disabledClass}
+                hrefTransformation={hrefTransformation}                
             />
         );
 
@@ -148,6 +155,7 @@ export default class Pagination extends React.Component {
                 itemClass={itemClass}
                 linkClass={cx(linkClass, linkClassLast)}
                 disabledClass={disabledClass}
+                hrefTransformation={hrefTransformation}                
             />
         );
 

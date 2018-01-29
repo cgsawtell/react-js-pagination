@@ -16,7 +16,8 @@ export default class Page extends Component {
 		activeLinkClass: PropTypes.string,
         itemClass: PropTypes.string,
         linkClass: PropTypes.string,
-        disabledClass: PropTypes.string
+        disabledClass: PropTypes.string,
+        hrefTransformation: PropTypes.func
     }
 
     static defaultProps = {
@@ -49,6 +50,7 @@ export default class Page extends Component {
           disabledClass,
           isActive,
           isDisabled,
+          hrefTransformation
         } = this.props;
 
         const css = cx(itemClass, {
@@ -62,7 +64,7 @@ export default class Page extends Component {
 
         return (
             <li className={css} onClick={::this.handleClick}>
-                <a className={linkCss} href="#">
+                <a className={linkCss} href={typeof hrefTransformation === "function" ? hrefTransformation(pageNumber) : "#" }>
                     { pageText }
                 </a>
             </li>
